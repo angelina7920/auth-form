@@ -1,0 +1,152 @@
+$gray: #333;
+$white: #fff;
+$light-gray: #c0c0c0;
+$error-color: #f75555;
+$blue: #4070f4;
+$light-blue: #e7edfe;
+$border-color: #dddddd;
+
+.container {
+	max-width: 320px;
+	width: 100%;
+  &:hover{
+    .arrow-down {
+      svg{
+        stroke: $blue;
+      }
+    }
+    .select-name {
+      color: $blue;
+    }
+    .btn-select{
+      border-color: $blue;
+    }
+  }
+}
+.select-name{
+  font-size: 16px;
+  color: $gray;
+  margin-bottom: 10px;
+}
+.btn-select {
+	display: flex;
+	height: 50px;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 16px;
+	border-radius: 8px;
+	cursor: pointer;
+	border: 1px solid $border-color;
+	transition: 0.2s;
+	.btn-text {
+		font-size: 17px;
+		font-weight: 400;
+		color: $light-gray;
+    transition: 0.2s;
+	}
+  .btn-text.gray{
+    color: $gray;
+  }
+	.arrow-down {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: 0.3s;
+    svg{
+      stroke: $gray;
+      width: 30px;
+      height: 30px;
+      transition: 0.2s;
+    }
+	}
+}
+.btn-select.open {
+	.arrow-down {
+		transform: rotate(-180deg);
+	}
+	~ {
+		.list-items {
+			display: block;
+		}
+	}
+}
+
+.list-items {
+	position: relative;
+	margin-top: 15px;
+	border-radius: 8px;
+	background-color: $white;
+	padding: 16px;
+	border: 1px solid $border-color;
+	display: none;
+	.item {
+		display: flex;
+		align-items: center;
+		list-style: none;
+		height: 50px;
+		cursor: pointer;
+		transition: 0.2s;
+		padding: 0 15px;
+		border-radius: 8px;
+		&:hover {
+			background-color: $light-blue;
+		}
+	}
+}
+.item {
+	.item-text {
+		font-size: 16px;
+		font-weight: 400;
+		color: $gray;
+	}
+	.checkbox {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 16px;
+		width: 16px;
+		border-radius: 4px;
+		margin-right: 12px;
+		border: 1.5px solid $light-gray;
+		transition: all 0.2s ease-in-out;
+	}
+}
+.item.checked {
+	.checkbox {
+		background-color: $blue;
+		border-color: $blue;
+	}
+	.check-icon {
+		transform: scale(1);
+	}
+}
+.checkbox {
+	.check-icon {
+		transform: scale(0);
+		transition: 0.2s ease-in-out;
+	}
+}
+
+.container.error {
+  .select-name{
+    color: $error-color;
+  }
+  .arrow-down {
+    svg{
+      stroke: $error-color;
+    }
+  }
+  .btn-select{
+    border-color: $error-color;
+  }
+}
+
+
+.error-block{
+  font-size: 14px;
+  color: $error-color;
+  margin-top: 5px;
+}
+
+
+

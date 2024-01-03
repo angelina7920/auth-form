@@ -1,0 +1,11 @@
+<div class="header">
+  <div class="header__item">
+    <a routerLink="/authentication">auth</a>
+  </div>
+  <div class="header__item">
+    <app-default-select
+      [options]="languages"
+      (selectionChange)="switchLanguage($event)"
+    ></app-default-select>
+  </div>
+</div>

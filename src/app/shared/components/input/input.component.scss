@@ -1,0 +1,62 @@
+$gray: #333;
+$light-gray: #c0c0c0;
+$error-color: #f75555;
+$blue: #4070f4;
+$border-color: #dddddd;
+
+.container{
+  max-width: 320px;
+  width: 100%;
+  .label{
+    font-size: 16px;
+    color: $gray;
+    margin-bottom: 10px;
+    transition: 0.2s;
+  }
+  .label.blue{
+    color: $blue;
+  }
+  .input{
+    width: calc(100% - 32px);
+    border: none;
+    height: 50px;
+    padding: 0 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid $border-color;
+    transition: 0.2s;
+    color: $gray;
+    font-size: 17px;
+    transition: 0.2s;
+    &:focus{
+      outline: none;
+      border-color: $blue;
+    }
+    &::placeholder{
+      color: $light-gray;
+    }
+  }
+  &:hover{
+    .label{
+      color: $blue;
+    }
+    .input{
+      border-color: $blue;
+    }
+  }
+}
+
+.container.error {
+  .label{
+    color: $error-color;
+  }
+  .input{
+    border-color: $error-color;
+  }
+}
+
+.error-block{
+  font-size: 14px;
+  color: $error-color;
+  margin-top: 5px;
+}

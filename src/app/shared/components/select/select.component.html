@@ -1,0 +1,43 @@
+<div class="container" [ngClass]="{ error: isInValid }">
+  <div class="select-name">
+    {{ label }}
+  </div>
+  <div class="btn-select" (click)="toggleSelect()" [ngClass]="{ open: IsOpen }">
+    <span class="btn-text" [ngClass]="{ gray: hasCheckedItems() }">
+      @if (hasCheckedItems()) {
+      {{ getDisplayText() }}
+      }@else {
+      {{placeholder}}
+      }
+    </span>
+    <span class="arrow-down">
+      <svg>
+        <use xlink:href="assets/svg/chevron-down.svg#chevron-down"></use>
+      </svg>
+    </span>
+  </div>
+
+  <ul class="list-items">
+    <ng-container *ngFor="let option of options; let i = index">
+      <li
+        class="item"
+        (click)="toggleCheckbox(i)"
+        [ngClass]="{ checked: isChecked[i] }"
+      >
+        <span class="checkbox">
+          <img
+            src="assets/svg/tick.svg"
+            alt="tick"
+            width="16"
+            class="check-icon"
+          />
+        </span>
+        <span class="item-text">{{ option }}</span>
+      </li>
+    </ng-container>
+  </ul>
+</div>
+
+<div class="error-block" *ngIf="isInValid">
+  {{ errorMessage }}
+</div>

@@ -1,0 +1,17 @@
+<div class="container" [ngClass]="{error: isInValid}">
+  <div class="label" [ngClass]="{blue: isFocused}">
+    {{ label }}
+  </div>
+  <input
+    type="text"
+    [(ngModel)]="value"
+    (focusout)="onFocusOut()"
+    (focus) = "onFocus()"
+    [placeholder]="placeholder"
+    class="input"
+  />
+</div>
+
+<div class="error-block" *ngIf="isInValid">
+  {{ errorMessage }}
+</div>

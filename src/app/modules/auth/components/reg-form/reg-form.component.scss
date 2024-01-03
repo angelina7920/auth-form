@@ -1,0 +1,30 @@
+.form{
+  max-width: 360px;
+  width: 100%;
+  padding-left: 40px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  .form__item{
+    margin-bottom: 20px;
+  }
+  .form__array__block{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    .form__array__item{
+      width: 100%;
+    }
+    .form_array_delete_btn{
+      margin-top: 42.4px;
+    }
+  }
+}
+
+.mb-20{
+  margin-bottom: 20px;
+}
+
+

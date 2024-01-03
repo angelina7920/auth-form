@@ -1,0 +1,73 @@
+<form [formGroup]="regForm" class="form" (ngSubmit)="onSubmit()">
+  <app-input
+    class="form__item"
+    formControlName="name"
+    [label]="'REG-FORM.NAME' | translate"
+    [placeholder]="'REG-FORM.NAME-PL' | translate"
+    [isInValid]="isInValid('name')"
+    [errorMessage]="getNameError() | translate"
+  ></app-input>
+
+  <app-input
+    class="form__item"
+    formControlName="email"
+    [label]="'REG-FORM.EMAIL' | translate"
+    [placeholder]="'example@email'"
+    [isInValid]="isInValid('email')"
+    [errorMessage]="getEmailError() | translate"
+  ></app-input>
+
+  <app-password-input
+    class="form__item"
+    formControlName="password"
+    [label]="'REG-FORM.PASSWORD' | translate"
+    [placeholder]="'REG-FORM.PASSWORD-PL' | translate"
+    [isInValid]="isInValid('password')"
+    [errorMessage]="getPasswordError() | translate"
+  ></app-password-input>
+
+  <app-password-input
+    class="form__item"
+    formControlName="confirmPassword"
+    [label]="'REG-FORM.CONF-PASSWORD' | translate"
+    [placeholder]="'REG-FORM.CONF-PASSWORD-PL' | translate"
+    [isInValid]="isInValid('confirmPassword')"
+    [errorMessage]="getConfirmPasswordError() | translate"
+  ></app-password-input>
+
+  <div formArrayName="phones" class="mb-20">
+    <div
+      *ngFor="let phone of phones.controls; let i = index"
+      class="form__item form__array__block"
+    >
+      <app-input
+        class="form__array__item"
+        formControlName="{{ i }}"
+        [label]="'REG-FORM.PHONE' | translate"
+        [placeholder]="'+123456789'"
+        [isInValid]="isInValidPhone(i)"
+        [errorMessage]="getPhonesError(i) | translate"
+      ></app-input>
+      @if( i > 0){
+      <app-delete-button
+        (click)="deletePhone(i)"
+        class="form_array_delete_btn"
+      ></app-delete-button>
+      }
+    </div>
+    <app-second-button (click)="addPhone()">{{'REG-FORM.PHONE-ADD' | translate}}</app-second-button>
+  </div>
+
+  <app-select
+    class="form__item"
+    formControlName="languages"
+    [label]="'REG-FORM.SELECT' | translate"
+    [placeholder]="'REG-FORM.SELECT-PL' | translate"
+    [isInValid]="isInValid('languages')"
+    [errorMessage]="getLanguagesError() | translate"
+    [options]="languages"
+  ></app-select>
+
+  <app-primary-button>{{ "BUTTONS.SUBMIT" | translate }}</app-primary-button>
+</form>
+

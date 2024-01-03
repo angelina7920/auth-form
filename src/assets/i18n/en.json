@@ -1,0 +1,52 @@
+{
+  "BUTTONS": {
+    "SUBMIT": "Submit"
+  },
+  "REG-PAGE": {
+    "REGISTER": "Register",
+    "SUBTITLE": "Fill in this form to create an account."
+  },
+  "REG-FORM": {
+    "SELECT": "Languages",
+    "SELECT-PL": "Select languages",
+    "NAME": "Name",
+    "NAME-PL": "enter your name",
+    "PASSWORD": "Password",
+    "PASSWORD-PL": "enter your password",
+    "CONF-PASSWORD": "Confirm password",
+    "CONF-PASSWORD-PL": "enter your password again",
+    "EMAIL": "Email",
+    "PHONE": "Phone",
+    "PHONE-ADD": "Add Phone"
+  },
+  "ERROR_MESSAGES": {
+    "NAME": {
+      "REQUIRED": "Name is required",
+      "MINLENGTH": "Name must be at least 2 characters",
+      "MAXLENGTH": "Name accept 15 characters max"
+    },
+    "EMAIL": {
+      "REQUIRED": "Email is required",
+      "EMAIL": "Not a valid email address"
+    },
+    "PASSWORD": {
+      "REQUIRED": "Password is required",
+      "MINLENGTH": "Password must be at least 6 characters",
+      "MAXLENGTH": "Password accept 16 characters max",
+      "PATTERN": "Password must contain at least one digit and one uppercase letter."
+    },
+    "CONFIRMPASSWORD": {
+      "REQUIRED": "Confirm password is required",
+      "MATCH": "Passwords must match"
+    },
+    "LANGUAGES": {
+      "REQUIRED": "Language is required"
+    },
+    "PHONES": {
+      "REQUIRED": "Phone is required",
+      "MINLENGTH": "Phone must be at least 10 characters",
+      "MAXLENGTH": "Phone accept 15 characters max",
+      "PATTERN": "The phone number must start with + and consist of numbers only"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+$error-color: #f75555;
+$light-red: #ffe1e1;
+$blue: #4070f4;
+$light-blue: #e7edfe;
+
+.button{
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: $light-blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+  svg{
+    width: 25px;
+    height: 25px;
+    stroke: $blue;
+    transition: 0.2s;
+  }
+  &:hover{
+    background-color: $light-red;
+    scale: 1.1;
+    svg{
+      stroke: $error-color;
+    }
+  }
+}
