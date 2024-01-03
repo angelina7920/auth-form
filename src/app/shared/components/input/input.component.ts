@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, forwardRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  forwardRef,
+} from '@angular/core';
 import {
   ControlValueAccessor,
   FormsModule,
@@ -19,17 +24,17 @@ import {
       multi: true,
     },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputComponent implements ControlValueAccessor {
   @Input() label = 'input';
-  @Input() placeholder: string = 'placeholder'
-  @Input() isInValid: boolean | undefined= false;
+  @Input() placeholder: string = 'placeholder';
+  @Input() isInValid: boolean | undefined = false;
   @Input() errorMessage: string = '';
-  val: string = '';
-  isFocused: boolean = false;
-  onChange: any = () => {};
-  onTouch: any = () => {};
+  private val: string = '';
+  public isFocused: boolean = false;
+  public onChange: any = () => {};
+  public onTouch: any = () => {};
   set value(val: string) {
     if (val !== undefined && this.val !== val) {
       this.val = val;
@@ -37,15 +42,16 @@ export class InputComponent implements ControlValueAccessor {
       this.onTouch(val);
     }
   }
-  onFocusOut(){
+  public onFocusOut(): void {
     this.onTouch();
     this.isFocused = false;
-    console.log(this.isFocused)
+    console.log(this.isFocused);
   }
-  onFocus(){
+  public onFocus(): void {
     this.isFocused = true;
-    console.log(this.isFocused)
+    console.log(this.isFocused);
   }
+
   writeValue(value: string) {
     this.value = value;
   }

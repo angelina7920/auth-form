@@ -40,12 +40,12 @@ export class PasswordInputComponent implements ControlValueAccessor{
     }
   }
 
-  onFocusOut(){
+  public onFocusOut(): void{
     this.onTouch();
     this.isFocused = false;
     console.log(this.isFocused)
   }
-  onFocus(){
+  public onFocus(): void{
     this.isFocused = true;
     console.log(this.isFocused)
   }

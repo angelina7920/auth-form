@@ -26,9 +26,9 @@ export class SelectComponent implements OnInit, ControlValueAccessor{
   @Input() isInValid: boolean | undefined = false;
   @Input() errorMessage: string = '';
 
-  IsOpen: boolean = false;
-  isChecked: boolean[] = [];
-  selectedOptions: string[] = [];
+  public IsOpen: boolean = false;
+  public isChecked: boolean[] = [];
+  public selectedOptions: string[] = [];
   onChange: any = () => {};
   onTouch: any = () => {};
 
@@ -36,31 +36,31 @@ export class SelectComponent implements OnInit, ControlValueAccessor{
     this.isChecked = new Array(this.options.length).fill(false);
   }
 
-  toggleCheckbox(index: number) {
+  public toggleCheckbox(index: number): void {
     this.isChecked[index] = !this.isChecked[index];
     this.updateSelectedOptions();
     this.onChange(this.selectedOptions);
     this.onTouch();
   }
 
-  toggleSelect() {
+  public toggleSelect(): void {
     this.IsOpen = !this.IsOpen;
     if (!this.IsOpen) {
       this.onTouch();
     }
   }
 
-  updateSelectedOptions() {
+  private updateSelectedOptions(): void {
     this.selectedOptions = this.options.filter(
       (option, index) => this.isChecked[index]
     );
   }
 
-  hasCheckedItems(): boolean {
+  public hasCheckedItems(): boolean {
     return this.selectedOptions.length > 0;
   }
 
-  getDisplayText(): string {
+  public getDisplayText(): string {
     const displayOptions = this.selectedOptions.join(', ');
     return displayOptions.length <= 25
       ? displayOptions

@@ -17,7 +17,8 @@ import { FormsModule } from '@angular/forms';
 export class DefaultSelectComponent {
   @Input() options: DefSelect[] = []
   @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
-  onSelectionChange(event: any) {
+
+  onSelectionChange(event: any): void {
     const selectedValue = event.target.value;
     this.selectionChange.emit(selectedValue);
   }

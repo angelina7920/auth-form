@@ -131,7 +131,7 @@ export class RegFormComponent implements OnInit, OnDestroy {
     } else console.log('sub');
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
   }

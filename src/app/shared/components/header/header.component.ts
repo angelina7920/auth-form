@@ -28,16 +28,18 @@ export class HeaderComponent implements OnInit {
   ) {
     this.translate.setDefaultLang('en');
   }
-  languages: DefSelect[] = [
+  public languages: DefSelect[] = [
     { value: 'en', name: 'English' },
     { value: 'ru', name: 'Русский' },
   ];
-  switchLanguage(language: string) {
+
+  public switchLanguage(language: string): void {
     this.translate.use(language);
   }
 
-  navLink: string = '';
+  public navLink: string = '';
   public navtext: string = '';
+
   ngOnInit() {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
