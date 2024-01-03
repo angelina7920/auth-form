@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -9,14 +9,15 @@ import {
 import { MatchValidator } from '../../../../shared/validators/match.validator';
 import { Form } from '../../../../shared/classes/form.class';
 import { LanguageService } from '../../../../shared/services/language.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-reg-form',
   templateUrl: './reg-form.component.html',
   styleUrl: './reg-form.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegFormComponent implements OnInit {
+export class RegFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private languageService: LanguageService
@@ -24,11 +25,13 @@ export class RegFormComponent implements OnInit {
 
   public regForm!: FormGroup;
   public languages: string[] = [];
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   ngOnInit(): void {
     this.regForm = this.formInit();
     this.languageService
       .getLanguages()
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((data) => (this.languages = data));
   }
 
@@ -114,17 +117,22 @@ export class RegFormComponent implements OnInit {
     return this.regForm.get('phones') as FormArray;
   }
 
-  public addPhone(): void{
-    this.phones.push(this.createPhoneControl())
+  public addPhone(): void {
+    this.phones.push(this.createPhoneControl());
   }
 
-  public deletePhone(index: number): void{
+  public deletePhone(index: number): void {
     this.phones.removeAt(index);
   }
 
-  onSubmit() {
-    // if(!this.regForm.valid){
-    //   this.regForm.markAllAsTouched()
-    // }
+  public onSubmit(): void {
+    if (!this.regForm.valid) {
+      this.regForm.markAllAsTouched();
+    } else console.log('sub');
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }

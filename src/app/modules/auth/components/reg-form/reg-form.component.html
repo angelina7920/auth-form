@@ -1,4 +1,4 @@
-<form [formGroup]="regForm" class="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="regForm" (keydown.enter)="$event.preventDefault()" class="form" (ngSubmit)="onSubmit()">
   <app-input
     class="form__item"
     formControlName="name"
@@ -68,6 +68,6 @@
     [options]="languages"
   ></app-select>
 
-  <app-primary-button>{{ "BUTTONS.SUBMIT" | translate }}</app-primary-button>
+  <app-primary-button (click)="onSubmit()">{{ "BUTTONS.SUBMIT" | translate }}</app-primary-button>
 </form>
 
