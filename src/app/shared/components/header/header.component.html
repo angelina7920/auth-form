@@ -1,6 +1,6 @@
 <div class="header">
   <div class="header__item">
-    <a routerLink="/authentication">auth</a>
+    <a [routerLink]="navLink">{{ navtext  | translate}}</a>
   </div>
   <div class="header__item">
     <app-default-select

@@ -1,6 +1,8 @@
 {
   "BUTTONS": {
-    "SUBMIT": "Submit"
+    "SUBMIT": "Submit",
+    "MAIN": "Main",
+    "AUTH": "Sign Up"
   },
   "REG-PAGE": {
     "REGISTER": "Register",
