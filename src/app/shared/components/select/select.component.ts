@@ -1,86 +1,104 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, Injector, Input, OnInit, forwardRef } from '@angular/core';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule, UntypedFormControl, ValidationErrors } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { Options } from '../../interfaces/select.interface';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { startWith } from 'rxjs';
+import { GetErrorPipe } from "../../pipes/get-error.pipe";
+import { TranslateModule } from '@ngx-translate/core';
 
+@UntilDestroy()
 @Component({
-  selector: 'app-select',
-  standalone: true,
-  imports: [
-    CommonModule
-  ],
-  templateUrl: './select.component.html',
-  styleUrl: './select.component.scss',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SelectComponent),
-      multi: true,
-    },
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-select',
+    standalone: true,
+    templateUrl: './select.component.html',
+    styleUrl: './select.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => SelectComponent),
+            multi: true,
+        },
+    ],
+    imports: [NgSelectModule, ReactiveFormsModule, CommonModule, GetErrorPipe, TranslateModule, FormsModule]
 })
-export class SelectComponent implements OnInit, ControlValueAccessor{
-  @Input() options: string[] = [];
-  @Input() label: string = '';
-  @Input() placeholder: string = '';
-  @Input() isInValid: boolean | undefined = false;
-  @Input() errorMessage: string = '';
+export class SelectComponent implements OnInit, AfterContentInit, ControlValueAccessor, DoCheck{
+  @Input() label: string;
+  @Input() placeholder: string;
+  @Input() multiple: boolean;
+  @Input() options: Options[];
+  @Input() disabled: boolean = false;
+  @Input() errorField: string = 'name';
 
-  public IsOpen: boolean = false;
-  public isChecked: boolean[] = [];
-  public selectedOptions: string[] = [];
-  onChange: any = () => {};
-  onTouch: any = () => {};
+  constructor(private cdr: ChangeDetectorRef, private injector: Injector) {}
 
-  ngOnInit() {
-    this.isChecked = new Array(this.options.length).fill(false);
+  public currentErrors: null | ValidationErrors | undefined = null;
+
+  public ngControl: NgControl;
+  public control: UntypedFormControl;
+  public touched = false;
+  public onChange = (value: any) => {};
+  public onTouched = () => {};
+
+
+  public ngAfterContentInit(): void {
+    this.ngControl = this.injector.get(NgControl);
+    this.ngControl.control?.statusChanges
+      .pipe(startWith(this.ngControl?.control?.status), untilDestroyed(this))
+      .subscribe(() => {
+        this.currentErrors = this.ngControl?.control?.errors;
+        this.cdr.markForCheck();
+      });
   }
 
-  public toggleCheckbox(index: number): void {
-    this.isChecked[index] = !this.isChecked[index];
-    this.updateSelectedOptions();
-    this.onChange(this.selectedOptions);
-    this.onTouch();
+  public ngOnInit(): void {
+    this.control = new UntypedFormControl({
+      value: '',
+      disabled: this.disabled,
+    });
+    this.control.markAsTouched = function (): void {};
+    this.control.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
+      this.onChange(value);
+    });
   }
 
-  public toggleSelect(): void {
-    this.IsOpen = !this.IsOpen;
-    if (!this.IsOpen) {
-      this.onTouch();
+  public ngDoCheck(): void {
+    this.checkTouchedStatus();
+  }
+
+  private checkTouchedStatus(): void {
+    this.touched = Boolean(this.ngControl?.control?.touched);
+    this.cdr.markForCheck();
+  }
+
+  public onBlur(): void {
+    this.onTouched();
+  }
+
+  public isInValid(): boolean{
+    return  Boolean(this.ngControl?.control?.errors) && this.touched;
+  }
+
+  public setDisabledState(isDisabled: boolean) {
+    if (isDisabled) {
+      this.control.disable();
+    } else {
+      this.control.enable();
     }
   }
 
-  private updateSelectedOptions(): void {
-    this.selectedOptions = this.options.filter(
-      (option, index) => this.isChecked[index]
-    );
+  public writeValue(obj: any): void {
+    this.control?.setValue(obj);
   }
 
-  public hasCheckedItems(): boolean {
-    return this.selectedOptions.length > 0;
-  }
-
-  public getDisplayText(): string {
-    const displayOptions = this.selectedOptions.join(', ');
-    return displayOptions.length <= 25
-      ? displayOptions
-      : displayOptions.slice(0, 25) + '...';
-  }
-
-  writeValue(value: any): void {
-    if (value && Array.isArray(value)) {
-      this.selectedOptions = value;
-      this.isChecked = this.options.map((option) =>
-        this.selectedOptions.includes(option)
-      );
-    }
-  }
-
-  registerOnChange(fn: any): void {
+  public registerOnChange(fn: any): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
-    this.onTouch = fn;
+  public registerOnTouched(fn: any): void {
+    this.onTouched = fn;
   }
+
 }

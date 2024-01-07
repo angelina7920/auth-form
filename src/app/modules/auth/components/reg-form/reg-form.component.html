@@ -1,39 +1,54 @@
-<form [formGroup]="regForm" (keydown.enter)="$event.preventDefault()" class="form" (ngSubmit)="onSubmit()">
+<form
+  [formGroup]="regForm"
+  (keydown.enter)="$event.preventDefault()"
+  class="form"
+  (ngSubmit)="onSubmit()"
+>
   <app-input
     class="form__item"
     formControlName="name"
     [label]="'REG-FORM.NAME' | translate"
+    [errorField]="'name'"
     [placeholder]="'REG-FORM.NAME-PL' | translate"
-    [isInValid]="isInValid('name')"
-    [errorMessage]="getNameError() | translate"
   ></app-input>
 
   <app-input
     class="form__item"
     formControlName="email"
+    [errorField]="'email'"
     [label]="'REG-FORM.EMAIL' | translate"
     [placeholder]="'example@email'"
-    [isInValid]="isInValid('email')"
-    [errorMessage]="getEmailError() | translate"
   ></app-input>
 
-  <app-password-input
+  <app-input
     class="form__item"
     formControlName="password"
     [label]="'REG-FORM.PASSWORD' | translate"
+    [errorField]="'password'"
     [placeholder]="'REG-FORM.PASSWORD-PL' | translate"
-    [isInValid]="isInValid('password')"
-    [errorMessage]="getPasswordError() | translate"
-  ></app-password-input>
+    [isInVisible]="isPasswordInVisible"
+    [suffix]="password_icon"
+  ></app-input>
 
-  <app-password-input
+  <app-input
     class="form__item"
     formControlName="confirmPassword"
+    [errorField]="'confirmPassword'"
     [label]="'REG-FORM.CONF-PASSWORD' | translate"
     [placeholder]="'REG-FORM.CONF-PASSWORD-PL' | translate"
-    [isInValid]="isInValid('confirmPassword')"
-    [errorMessage]="getConfirmPasswordError() | translate"
-  ></app-password-input>
+    [isInVisible]="isPasswordInVisible"
+    [suffix]="password_icon"
+  ></app-input>
+
+  <app-select
+    class="form__item"
+    formControlName="languages"
+    [label]="'REG-FORM.SELECT' | translate"
+    [options]="languages"
+    [multiple]="true"
+    [errorField]="'languages'"
+    [placeholder]="'REG-FORM.SELECT-PL' | translate"
+  ></app-select>
 
   <div formArrayName="phones" class="mb-20">
     <div
@@ -45,8 +60,7 @@
         formControlName="{{ i }}"
         [label]="'REG-FORM.PHONE' | translate"
         [placeholder]="'+123456789'"
-        [isInValid]="isInValidPhone(i)"
-        [errorMessage]="getPhonesError(i) | translate"
+        [errorField]="'phones'"
       ></app-input>
       @if( i > 0){
       <app-delete-button
@@ -55,19 +69,18 @@
       ></app-delete-button>
       }
     </div>
-    <app-second-button (click)="addPhone()">{{'REG-FORM.PHONE-ADD' | translate}}</app-second-button>
+    <button type="button" (click)="addPhone()" class="second-button">
+      {{ "REG-FORM.PHONE-ADD" | translate }}
+    </button>
   </div>
 
-  <app-select
-    class="form__item"
-    formControlName="languages"
-    [label]="'REG-FORM.SELECT' | translate"
-    [placeholder]="'REG-FORM.SELECT-PL' | translate"
-    [isInValid]="isInValid('languages')"
-    [errorMessage]="getLanguagesError() | translate"
-    [options]="languages"
-  ></app-select>
-
-  <app-primary-button (click)="onSubmit()">{{ "BUTTONS.SUBMIT" | translate }}</app-primary-button>
+  <button class="submit-button" (click)="onSubmit()">{{ "BUTTONS.SUBMIT" | translate }}</button>
 </form>
 
+<ng-template #password_icon>
+  <div
+    class="password_icon"
+    (click)="togglePasswordVisible()"
+    [ngClass]="{ 'crossed-out': isPasswordInVisible }"
+  ></div>
+</ng-template>

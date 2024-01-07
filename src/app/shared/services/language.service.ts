@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { LanguagesList } from '../interfaces/languages.interface';
 import { mapToNamesArray } from '../mappers/language.mapper';
+import { Options } from '../interfaces/select.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { mapToNamesArray } from '../mappers/language.mapper';
 export class LanguageService {
   private http: HttpClient = inject(HttpClient);
   private url = 'assets/data/languages.json';
-  getLanguages(): Observable<string[]> {
+  getLanguages(): Observable<Options[]> {
     return this.http.get<LanguagesList>(this.url)
       .pipe(
         map(mapToNamesArray)

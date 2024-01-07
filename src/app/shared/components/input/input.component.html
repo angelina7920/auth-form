@@ -1,17 +1,46 @@
-<div class="container" [ngClass]="{error: isInValid}">
-  <div class="label" [ngClass]="{blue: isFocused}">
-    {{ label }}
+<ng-container *ngIf="!suffix">
+  <div class="container" [ngClass]="{ error: isInValid() }">
+    <div class="label">
+      {{ label }}
+    </div>
+    <div class="input-wrapper">
+      <input
+        class="input-wrapper__input"
+        [autofocus]="false"
+        [placeholder]="placeholder"
+        [formControl]="control"
+        (blur)="onBlur()"
+        (keyup.enter)="onBlur()"
+      />
+    </div>
   </div>
-  <input
-    type="text"
-    [(ngModel)]="value"
-    (focusout)="onFocusOut()"
-    (focus) = "onFocus()"
-    [placeholder]="placeholder"
-    class="input"
-  />
-</div>
 
-<div class="error-block" *ngIf="isInValid">
-  {{ errorMessage }}
-</div>
+  <span class="error-text" *ngIf="isInValid()">
+    {{ currentErrors | getError : errorField | translate }}
+  </span>
+</ng-container>
+
+<ng-container *ngIf="suffix">
+  <div class="container" [ngClass]="{ error: isInValid() }">
+    <div class="label">
+      {{ label }}
+    </div>
+    <div class="suffix-wrapper">
+      <input
+        class="suffix-wrapper__input"
+        [type]="isInVisible ? 'password' : type"
+        [placeholder]="placeholder"
+        [formControl]="control"
+        (blur)="onBlur()"
+        (keyup.enter)="onBlur()"
+      />
+      <div class="suffix-wrapper__suffix">
+        <ng-container *ngTemplateOutlet="suffix"></ng-container>
+      </div>
+    </div>
+  </div>
+
+  <span class="error-text" *ngIf="isInValid()">
+    {{ currentErrors | getError : errorField | translate }}
+  </span>
+</ng-container>

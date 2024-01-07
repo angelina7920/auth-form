@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -7,31 +7,37 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatchValidator } from '../../../../shared/validators/match.validator';
-import { Form } from '../../../../shared/classes/form.class';
 import { LanguageService } from '../../../../shared/services/language.service';
-import { ReplaySubject, takeUntil } from 'rxjs';
+import { Options } from '../../../../shared/interfaces/select.interface';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-reg-form',
   templateUrl: './reg-form.component.html',
   styleUrl: './reg-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegFormComponent implements OnInit, OnDestroy {
+export class RegFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private languageService: LanguageService
   ) {}
 
   public regForm!: FormGroup;
-  public languages: string[] = [];
-  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  public languages: Options[] = [];
+
+  public isPasswordInVisible = true;
+
+  togglePasswordVisible(){
+    this.isPasswordInVisible = !this.isPasswordInVisible;
+  }
 
   ngOnInit(): void {
     this.regForm = this.formInit();
     this.languageService
       .getLanguages()
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(untilDestroyed(this))
       .subscribe((data) => (this.languages = data));
   }
 
@@ -66,44 +72,6 @@ export class RegFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  public isInValid(controlName: string): boolean | undefined {
-    const control = this.regForm.get(controlName);
-    return Form.isControlInvalid(control);
-  }
-
-  public isInValidPhone(index: number): boolean | undefined {
-    const control = Form.getFormArrayControl(this.phones, index);
-    return Form.isControlInvalid(control);
-  }
-
-  public getNameError(): string {
-    return Form.getErrorMessage(this.regForm.get('name'), 'name');
-  }
-
-  public getEmailError(): string {
-    return Form.getErrorMessage(this.regForm.get('email'), 'email');
-  }
-
-  public getPasswordError(): string {
-    return Form.getErrorMessage(this.regForm.get('password'), 'password');
-  }
-
-  public getConfirmPasswordError(): string {
-    return Form.getErrorMessage(
-      this.regForm.get('confirmPassword'),
-      'confirmPassword'
-    );
-  }
-
-  public getLanguagesError(): string {
-    return Form.getErrorMessage(this.regForm.get('languages'), 'languages');
-  }
-
-  public getPhonesError(index: number): string {
-    const control = Form.getFormArrayControl(this.phones, index);
-    return Form.getErrorMessage(control, 'phones');
-  }
-
   private createPhoneControl(): FormControl {
     return new FormControl('', [
       Validators.required,
@@ -131,8 +99,4 @@ export class RegFormComponent implements OnInit, OnDestroy {
     } else console.log('sub');
   }
 
-  ngOnDestroy(): void {
-    this.destroyed$.next(true);
-    this.destroyed$.complete();
-  }
 }

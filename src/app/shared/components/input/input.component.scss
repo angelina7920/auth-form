@@ -1,62 +1,108 @@
 $gray: #333;
+$white: #fff;
 $light-gray: #c0c0c0;
 $error-color: #f75555;
 $blue: #4070f4;
+$light-blue: #e7edfe;
 $border-color: #dddddd;
 
-.container{
-  max-width: 320px;
-  width: 100%;
-  .label{
-    font-size: 16px;
-    color: $gray;
-    margin-bottom: 10px;
-    transition: 0.2s;
-  }
-  .label.blue{
-    color: $blue;
-  }
-  .input{
-    width: calc(100% - 32px);
-    border: none;
-    height: 50px;
-    padding: 0 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    border: 1px solid $border-color;
-    transition: 0.2s;
-    color: $gray;
-    font-size: 17px;
-    transition: 0.2s;
-    &:focus{
-      outline: none;
-      border-color: $blue;
-    }
-    &::placeholder{
-      color: $light-gray;
-    }
-  }
-  &:hover{
-    .label{
+
+.container {
+
+  &:hover,
+  &:focus-within {
+    .label {
       color: $blue;
     }
-    .input{
+
+    .wrapper {
       border-color: $blue;
+
+      .suffix-wrapper__suffix::ng-deep div{
+        background-color: $blue;
+      }
     }
   }
+
+  &.error {
+    .wrapper {
+      border-color: $error-color;
+
+      .suffix-wrapper__suffix::ng-deep div{
+        background-color: $error-color;
+      }
+    }
+
+    .label {
+      color: $error-color;
+    }
+  }
+
 }
 
-.container.error {
-  .label{
-    color: $error-color;
-  }
-  .input{
-    border-color: $error-color;
+.wrapper {
+  width: 100%;
+  max-width: 320px;
+  height: 50px;
+  border-radius: 8px;
+  border: 1px solid $border-color;
+  transition: 0.2s;
+}
+
+.input {
+  width: 100%;
+  outline: none;
+  border: none;
+  background: transparent;
+  font-size: 17px;
+  transition: 0.2s;
+  color: $gray;
+  padding: 0 16px;
+
+  &::placeholder {
+    color: $light-gray;
   }
 }
 
-.error-block{
-  font-size: 14px;
-  color: $error-color;
+.label {
+  transition: 0.2s;
+  color: $gray;
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
+.suffix-wrapper {
+  @extend .wrapper;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.suffix-wrapper__input {
+  @extend .input;
+}
+
+.suffix-wrapper__suffix {
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  margin-right: 14px;
+  cursor: pointer;
+}
+
+.input-wrapper {
+  @extend .wrapper;
+}
+
+.input-wrapper__input {
+  @extend .input;
+  height: 100%;
+}
+
+.error-text {
   margin-top: 5px;
+  color: $error-color;
+  display: block;
 }
