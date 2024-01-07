@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { DefSelect } from './shared/interfaces/default-select.interface';
+import { RouteService } from './shared/services/route.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +8,4 @@ import { DefSelect } from './shared/interfaces/default-select.interface';
 })
 export class AppComponent {
   title = 'pr1';
-
 }

@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrl: './reg-page.component.scss'
 })
 export class RegPageComponent {
-
 }
